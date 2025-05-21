@@ -1,0 +1,52 @@
+version: 2
+
+linters-settings:
+  govet:
+    check-shadowing: true
+
+  errcheck:
+    check-type-assertions: false
+
+  gocritic:
+    enabled-checks:
+      - ifElseChain
+      - unlambda
+
+  goimports:
+    local-prefixes: github.com/your/module
+
+run:
+  timeout: 3m
+  skip-dirs:
+    - vendor
+  skip-files:
+    - ".*_gen.go"
+
+linters:
+  enable:
+    - govet
+    - errcheck
+    - staticcheck
+    - gocritic
+  disable:
+    - revive # Disable revive linter (has mandatory comments)
+    - dupl        # Disable duplicate code check
+    - gocyclo     # Disable cyclomatic complexity check
+    - nakedret    # Disable naked returns lint
+
+formatters:
+  # Enable specific formatter.
+  # Default: [] (uses standard Go formatting)
+  enable:
+    - gci
+    - gofmt
+    - gofumpt
+    - goimports
+    - golines
+
+issues:
+  exclude-use-default: false
+  max-issues-per-linter: 0
+  max-same-issues: 0
+  exclude:
+    - "error return value not checked.*(Close|Write|Flush)"  # Ignore common ignored errors
